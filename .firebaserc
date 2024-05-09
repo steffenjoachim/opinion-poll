@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "opinion-poll-7bbe2": {
+      "hosting": {
+        "opinion-poll": [
+          "opinion-poll-7bbe2"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "opinion-poll-7bbe2"
+  }
+}

@@ -1,0 +1,37 @@
+<app-navbar></app-navbar>
+<div class="main-container">
+
+    @for (poll of opinionPollList; track poll.id) {
+    <div class="card" style="width: 18rem;">
+        <div class="head">
+            <p class="question"> {{poll.question }}</p>
+            <p class="info">Die Person, die die Umfrage erstellt hat, kann
+                sehen, wie Sie abgestimmt haben.</p>
+        </div>
+        <ul class="option-list">
+            @for ( option of poll.options; track option.text) {
+            <li class="list-group-item"
+            (click)="incrementVoteReceivedAndVoteCount(option, poll)"
+            [class.disabled-option]="getRemainingTime(poll.createdAt, poll.duration) === 'Umfrage geschlossen'">
+            {{option.text}}</li>
+            }
+        </ul>
+        <div class="card-bottom">
+            {{ poll.voteCount }} Stimmen
+            <div class="point-container">
+                <img class="point" src="./assets/img/point.png" alt="point"> 
+            </div>
+            @if (getRemainingTime(poll.createdAt, poll.duration) != "Umfrage geschlossen") {
+                Noch {{ getRemainingTime(poll.createdAt, poll.duration) }}
+                } 
+            @else {
+                <p 
+                class="disabled-voting"
+                (click)="disableVoting(poll)">{{ getRemainingTime(poll.createdAt, poll.duration) }}</p>
+                }
+        </div>
+        
+    </div>
+    }
+
+</div>

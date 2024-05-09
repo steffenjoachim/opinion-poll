@@ -1,0 +1,70 @@
+<form>
+    <div class="card-head">
+        <h2>Umfrage erstellen</h2>
+        <img src="./assets/img/close.png" alt="close">
+    </div>
+    <div class="input-group">
+        <span>Ihre Frage*</span>
+        <textarea
+            placeholder="Bsp.: Wie kommen Sie zur Arbeit?"
+            [(ngModel)]="questionText"
+            [ngModelOptions]="{standalone: true}"
+            (input)="updateCharacterCountQuestion()"></textarea>
+    </div>
+    <div class="character-count-container">
+        <p>{{ characterCountQuestion }} / {{ question_max_allowed_characters
+            }}</p>
+    </div>
+
+    @for (option of optionList; track option.id) {
+    <div class="input-group">
+        <span>Option{{ option.id }}*</span>
+        <textarea
+            placeholder="{{ option.placeholder }}"
+            [(ngModel)]=option.text
+            [ngModelOptions]="{standalone: true}"
+            (input)="updateCharacterCountOption(option.id)"></textarea>
+    </div>
+    <div class="character-count-container">
+        <p>{{ option.characterCountOption }} / {{ option_max_allowed_characters
+            }}</p>
+    </div>
+    }
+
+    <div class="button-container">
+        <button type="submit" class="add-button"
+            (click)="addOption()"><strong>+</strong> Option
+            hinzufügen</button>
+    </div>
+
+    <div class="bottom-container">
+        <h3>Dauer der Umfrage</h3>
+        <div class="form-floating duration">
+            <select class="form-select"
+                    id="floatingSelect"
+                    aria-label="Floating label select example"
+                    [(ngModel)]="selectedDuration"
+                    name="selectedDuration"
+                    (change)="onDurationChange($event)">
+                <option value="1 Woche">1 Woche</option>
+                <option value="1 Tag">1 Tag</option>
+                <option value="3 Tage">3 Tage</option>
+                <option value="1 Woche">1 Woche</option>
+                <option value="2 Wochen">2 Wochen</option>
+            </select>
+        </div>            
+
+        <p>Umfragen, mit denen politische Meinungen, medizinische Informationen
+            oder
+            andere sensible Daten abgefragt werden, sind nicht gestattet.</p>
+    </div>
+
+    <div class="button-container bottom-btn">
+        <a href class="back">Zurück</a>
+        <button type="submit"
+            class="completed-button"
+            (click)="saveOpinionPoll()"
+            [disabled]="!isFormValid()"
+            [ngClass]="{'disabled-button': !isFormValid(), 'enabled-button': isFormValid()}">Fertig</button>
+    </div>
+</form>
