@@ -96,8 +96,9 @@ incrementVoteReceivedAndVoteCount(option: { text: string; votesReceived: number 
   this.firebaseService.incrementVoteReceivedAndVoteCount(option, poll);
 }
 
-disableVoting(poll: SinglePoll) {
-
+roundToWholeNumber(value: number): number {
+  return Math.round(value);
 }
+
 
 }

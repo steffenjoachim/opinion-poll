@@ -1,37 +1,53 @@
 <app-navbar></app-navbar>
 <div class="main-container">
-
     @for (poll of opinionPollList; track poll.id) {
     <div class="card" style="width: 18rem;">
         <div class="head">
-            <p class="question"> {{poll.question }}</p>
-            <p class="info">Die Person, die die Umfrage erstellt hat, kann
-                sehen, wie Sie abgestimmt haben.</p>
+            <p class="question">{{ poll.question }}</p>
+            <p class="info">Die Person, die die Umfrage erstellt hat, kann sehen, wie Sie abgestimmt haben.</p>
         </div>
-        <ul class="option-list">
+        <div class="option-list"
+             [class.disabled-option-list]="getRemainingTime(poll.createdAt, poll.duration) === 'Umfrage geschlossen'">
             @for ( option of poll.options; track option.text) {
-            <li class="list-group-item"
-            (click)="incrementVoteReceivedAndVoteCount(option, poll)"
-            [class.disabled-option]="getRemainingTime(poll.createdAt, poll.duration) === 'Umfrage geschlossen'">
-            {{option.text}}</li>
+            <div class="single-option">
+                <div class="button-wrapper">
+                    @if (getRemainingTime(poll.createdAt, poll.duration) === 'Umfrage geschlossen') {
+                    <div class="progress-bar"
+                        [style.width.%]="roundToWholeNumber((option.votesReceived / poll.voteCount) * 100)">
+                    </div>
+                    }
+                    <button class="list-group-item"
+                        (click)="incrementVoteReceivedAndVoteCount(option, poll)"
+                        [class.disabled-option]="getRemainingTime(poll.createdAt, poll.duration) === 'Umfrage geschlossen'"
+                        [disabled]="getRemainingTime(poll.createdAt, poll.duration) === 'Umfrage geschlossen'">
+                        {{ option.text }}
+                    </button>
+                </div>
+                <span class="percentage"
+                    [class.disabled-single-option]="getRemainingTime(poll.createdAt, poll.duration) === 'Umfrage geschlossen'">
+                    {{ roundToWholeNumber((option.votesReceived / poll.voteCount) * 100) }}%
+                </span>
+            </div>
             }
-        </ul>
-        <div class="card-bottom">
+        </div>
+        <div class="card-bottom"
+             [class.disabled-bottom]="getRemainingTime(poll.createdAt, poll.duration) === 'Umfrage geschlossen'">
+            @if (getRemainingTime(poll.createdAt, poll.duration) != "Umfrage geschlossen") {
             {{ poll.voteCount }} Stimmen
             <div class="point-container">
-                <img class="point" src="./assets/img/point.png" alt="point"> 
+                <img class="point" src="./assets/img/point.png" alt="point">
             </div>
-            @if (getRemainingTime(poll.createdAt, poll.duration) != "Umfrage geschlossen") {
-                Noch {{ getRemainingTime(poll.createdAt, poll.duration) }}
-                } 
+            Noch {{ getRemainingTime(poll.createdAt, poll.duration) }}
+            }
             @else {
-                <p 
-                class="disabled-voting"
-                (click)="disableVoting(poll)">{{ getRemainingTime(poll.createdAt, poll.duration) }}</p>
-                }
+            {{ poll.voteCount }} Stimmen
+            <div class="point-container"
+                 [class.disabled-point-container]="getRemainingTime(poll.createdAt, poll.duration) === 'Umfrage geschlossen'">
+                <img class="point" src="./assets/img/point.png" alt="point">
+            </div>
+            <p class="disabled-voting">{{ getRemainingTime(poll.createdAt, poll.duration) }}</p>
+            }
         </div>
-        
     </div>
     }
-
 </div>

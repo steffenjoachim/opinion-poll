@@ -47,15 +47,24 @@ export class PollCardComponent implements OnInit {
     this.updateCharacterCountQuestion();
   }
 
+  /**
+   * This function is used to count und update the characters of the question when entered
+   */
   updateCharacterCountQuestion() {
     this.characterCountQuestion = this.questionText.length;
   }
 
+  /**
+   * This function is used to count und update the characters of an option when entered
+   */
   updateCharacterCountOption(i: number) {
     const option = this.optionList[i-1];
     option.characterCountOption = option.text.length; 
   }
 
+  /**
+   * This function is used to add an option. Originally there are 2 options foreseen as minimum, but if needed additional options can be added.
+   */
   addOption() {
     const newOptionId = this.optionList.length + 1; 
     const newOption: Option = { 
@@ -67,6 +76,9 @@ export class PollCardComponent implements OnInit {
     this.optionList.push(newOption); 
   }
 
+  /**
+   * This function is used to check if all parts of the form - the question and all options - have been filled in.
+   */
   isFormValid(): boolean {
     
     const questionFilled = this.questionText.trim() !== '';
@@ -75,11 +87,12 @@ export class PollCardComponent implements OnInit {
     return questionFilled && optionsFilled;
 }
 
+/**
+   * This function is used to check if the standard opinion poll duration of 1 week is changed to another selectable value and to update the selectedDuration variable accordingly.
+   */
 onDurationChange(event: Event) {
   const value = (event.target as HTMLSelectElement).value;
   this.selectedDuration = value; // Update der selectedDuration
-  console.log(value); // Hier haben Sie den ausgewählten Wert
-  // Führen Sie hier die weiteren Aktionen aus, z.B. speichern Sie den Wert in einer Variable oder übergeben Sie ihn an eine Funktion
 }
 
 saveOpinionPoll() {

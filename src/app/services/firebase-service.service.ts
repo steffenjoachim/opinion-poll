@@ -63,7 +63,7 @@ export class FirebaseServiceService {
   async incrementVoteReceivedAndVoteCount(option: { text: string; votesReceived: number }, poll: SinglePoll) {
     option.votesReceived++;
     poll.voteCount++;
-
+    this.opinionPolls = [];
     let pollRef = doc(collection(this.firestore, 'opinion-polls'), poll.id); 
     await updateDoc(pollRef, this.getCleanJson(poll) ).then(() => {
       console.log('Daten erfolgreich aktualisiert.');
