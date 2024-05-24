@@ -95,28 +95,28 @@ onDurationChange(event: Event) {
   this.selectedDuration = value; // Update der selectedDuration
 }
 
+/**
+   * This function is used to save a new opinion poll.
+   */
 saveOpinionPoll() {
-  // Extrahieren Sie die Optionen aus der optionList
-  this.options = this.optionList.map(option => option.text);
-
-  // Erstellen einer neuen Instanz von SinglePoll
+  this.options = this.optionList.map(option => option.text); // Extracts the options from the optionList.
+  // Create a new instance of SinglePoll:
   const singlePoll: SinglePoll = {
       id: '', 
       question: this.questionText,
-      options: this.options.map(optionText => ({ text: optionText, votesReceived: 0 })), // Hier fügen Sie die Texte der Optionen hinzu und setzen die Anfangsprozentsätze auf 0
-      voteCount: 0, // Anfangszahl der Stimmen
-      createdAt: Timestamp.now(), // Aktuelles Datum als Timestamp
-      duration: this.selectedDuration // Dauer der Umfrage aus dem Dropdown-Menü
+      options: this.options.map(optionText => ({ text: optionText, votesReceived: 0 })), 
+      voteCount: 0, 
+      createdAt: Timestamp.now(), 
+      duration: this.selectedDuration 
   };
+  this.noteService.addPoll(singlePoll); // Here the method addOpinionPoll is called to save it to firebase
 
-  // Hier können Sie die singlePoll-Instanz an Firebase senden oder anderweitig verwenden
-  console.log(singlePoll);
-  this.noteService.addPoll(singlePoll); // Hier rufen Sie die Methode addOpinionPoll auf
-
-  // Zurücksetzen der Eingabefelder
-  this.resetInputFields();
+  this.resetInputFields(); 
 }
 
+/**
+   * This function is used to clear and restet the input fields afer an opinion poll has been saved.
+   */
 resetInputFields(){
   this.questionText = '';
   this.optionList = [
@@ -126,6 +126,9 @@ resetInputFields(){
   this.selectedDuration = '1 Woche';
 }
 
+/**
+   * This function is used to add the opinion poll to firebase using the addPoll function definded in the firbase service.
+   */
 addOpinionPoll(singlePoll: SinglePoll) {
   this.noteService.addPoll(singlePoll);
 }
